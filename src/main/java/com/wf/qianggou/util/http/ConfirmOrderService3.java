@@ -5,28 +5,27 @@ import com.wf.qianggou.util.HttpClientService;
 import com.wf.qianggou.util.SSLClient;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.http.HttpEntity;
-import org.apache.http.NameValuePair;
-import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.message.BasicHeader;
-import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
 
-import java.net.URLDecoder;
 import java.net.URLEncoder;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
- * 下订单接口模拟，从前一个接口的返回和参数来构造参数
+ * 下订单接口模拟，从前一个接口的返回和参数来构造参数，但是前一个接口的参数和返回值均使用 网页端复制过来的
  *
  * @author wf
  * @date 2021年02月22日 16:32
  */
 @Slf4j
-public class ConfirmOrderService {
+public class ConfirmOrderService3 {
 
     /**
      * 返回成功状态码
@@ -292,8 +291,7 @@ public class ConfirmOrderService {
 
         // todo confirmOrder_1 -> hidden -> extensionMap -> sid 没有找到，就暂时随机一个
         // todo confirmOrder_1 -> hidden -> extensionMap -> umidToken 没有找到，就暂时随机一个
-        // todo item_7efa66197b5f0a8921d598745a012e55 -> hidden -> cartId 没有找到  2762544557774
-
+        // todo item_7efa66197b5f0a8921d598745a012e55 -> hidden -> cartId 没有找到
 
 
 
