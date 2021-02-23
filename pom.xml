@@ -52,6 +52,13 @@
             <artifactId>fastjson</artifactId>
             <version>1.2.57</version>
         </dependency>
+
+        <!--爬虫解析html-->
+        <dependency>
+            <groupId>org.jsoup</groupId>
+            <artifactId>jsoup</artifactId>
+            <version>1.12.1</version>
+        </dependency>
     </dependencies>
 
     <build>
