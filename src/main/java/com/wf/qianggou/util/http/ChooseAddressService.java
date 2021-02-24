@@ -138,19 +138,20 @@ public class ChooseAddressService {
             /**
              * 设置请求的报文头部
              */
-            post.setHeader(new BasicHeader("Accept", "text/plain;charset=utf-8"));
-            post.addHeader(new BasicHeader("Cookie", "cna=vswvGMk9ymUCAbaWP+aWkFr3; lid=%E5%B0%8F%E9%A3%9E546466464; enc=xH08HkVNFnMiMJezzBT2YuOeTIopL1QU9gW8Kyoo%2FShx%2FV7w%2B4NSJMHYDO7EzDpv7h1XglEQP9QKvINN0u9Hzg%3D%3D; hng=CN%7Czh-CN%7CCNY%7C156; t=d85da4d42ac8fea5bf4b3432ef3933bc; tracknick=%5Cu5C0F%5Cu98DE546466464; cookie2=1250a92a2efa69ec26ac92b7f208ed85; lgc=%5Cu5C0F%5Cu98DE546466464; tk_trace=1; csa=12198497492_0_30.773273.104.125916_0_0_0; ubn=p; ucn=center; dnk=%5Cu5C0F%5Cu98DE546466464; _tb_token_=fbe5b7348e1db; _m_h5_tk=fec3a6d5b3784dcf6378583603a69857_1613919958057; _m_h5_tk_enc=a042d808838ac0656aeee279e1084cdc; xlly_s=1; login=true; uc1=cookie15=V32FPkk%2Fw0dUvg%3D%3D&cookie21=UtASsssmeW6lpyd%2BBROh&cookie14=Uoe1gW4o7ht7LA%3D%3D&pas=0&cookie16=UtASsssmPlP%2Ff1IHDsDaPRu%2BPw%3D%3D&cart_m=0&existShop=true; uc3=vt3=F8dCuASiek0qC45jnk8%3D&id2=UUwVZ%2FVd30BdBQ%3D%3D&nk2=synFqM53%2B34OOhN8lQ%3D%3D&lg2=W5iHLLyFOGW7aA%3D%3D; _l_g_=Ug%3D%3D; uc4=id4=0%40U27KCxnkg%2BYg1C7JnsLE5%2FTr9KO0&nk4=0%40sVZlAh7wOoLIYyo1%2BRQD2VSEZeQTXnch; unb=2453833782; cookie1=BYlsb5eBt59VpQOOC2%2BctMOI%2FdeOecij6kZgsgiprqE%3D; cookie17=UUwVZ%2FVd30BdBQ%3D%3D; _nk_=%5Cu5C0F%5Cu98DE546466464; sgcookie=E100Bs1xaiIgmi%2BfsSe95re%2Bv1bEmYmPPnsBGubTJ7zAE5Ay%2BrsiF%2BR1k6FWNTsHm%2B%2FE7Fv1IGDzgyA6Is8fxoE6QQ%3D%3D; sg=424; csg=1de83e78; sm4=510114; l=eBP-ZQ7PO6NKKWWjBO5B-urza779XQdXflVzaNbMiInca6wRHF1obNCIom2H2dtjgtfx2eKyGmkaaR3XWb4LRx6CKvtgjqf1zV965; tfstk=crt5BNfZ97V7HeuU4LM44nbKIKQfaBM1Kz66FUSMCDtaBROhMsX3b1iXFwVUDNBf.; isg=BLq6zuiKjgbwjT1xKpzXpp0HC-Dcaz5FDAxL3MSwlM0Yt1XxrflAVWGBB0NrHLbd"));
-            post.addHeader(new BasicHeader("Referer", "https://buy.tmall.com/order/confirm_order.htm?spm=a1z0d.6639537.0.0.undefined"));
-            post.addHeader(new BasicHeader("Origin", "https://buy.tmall.com"));
-            post.addHeader(new BasicHeader("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8"));
-            post.addHeader(new BasicHeader(":path", "/auction/json/async_linkage.do?_input_charset=utf-8"));
-            post.addHeader(new BasicHeader(":authority", "buy.tmall.com"));
-            post.addHeader(new BasicHeader(":method", "POST"));
-            post.addHeader(new BasicHeader(":scheme", "https"));
-            post.addHeader(new BasicHeader("accept", "application/json, text/javascript, */*; q=0.01"));
+//            post.setHeader(new BasicHeader("Accept", "text/plain;charset=utf-8"));
+//            post.addHeader(new BasicHeader("Cookie", "cna=vswvGMk9ymUCAbaWP+aWkFr3; lid=%E5%B0%8F%E9%A3%9E546466464; enc=xH08HkVNFnMiMJezzBT2YuOeTIopL1QU9gW8Kyoo%2FShx%2FV7w%2B4NSJMHYDO7EzDpv7h1XglEQP9QKvINN0u9Hzg%3D%3D; hng=CN%7Czh-CN%7CCNY%7C156; t=d85da4d42ac8fea5bf4b3432ef3933bc; tracknick=%5Cu5C0F%5Cu98DE546466464; cookie2=1250a92a2efa69ec26ac92b7f208ed85; lgc=%5Cu5C0F%5Cu98DE546466464; tk_trace=1; csa=12198497492_0_30.773273.104.125916_0_0_0; ubn=p; ucn=center; dnk=%5Cu5C0F%5Cu98DE546466464; _tb_token_=fbe5b7348e1db; _m_h5_tk=fec3a6d5b3784dcf6378583603a69857_1613919958057; _m_h5_tk_enc=a042d808838ac0656aeee279e1084cdc; xlly_s=1; login=true; uc1=cookie15=V32FPkk%2Fw0dUvg%3D%3D&cookie21=UtASsssmeW6lpyd%2BBROh&cookie14=Uoe1gW4o7ht7LA%3D%3D&pas=0&cookie16=UtASsssmPlP%2Ff1IHDsDaPRu%2BPw%3D%3D&cart_m=0&existShop=true; uc3=vt3=F8dCuASiek0qC45jnk8%3D&id2=UUwVZ%2FVd30BdBQ%3D%3D&nk2=synFqM53%2B34OOhN8lQ%3D%3D&lg2=W5iHLLyFOGW7aA%3D%3D; _l_g_=Ug%3D%3D; uc4=id4=0%40U27KCxnkg%2BYg1C7JnsLE5%2FTr9KO0&nk4=0%40sVZlAh7wOoLIYyo1%2BRQD2VSEZeQTXnch; unb=2453833782; cookie1=BYlsb5eBt59VpQOOC2%2BctMOI%2FdeOecij6kZgsgiprqE%3D; cookie17=UUwVZ%2FVd30BdBQ%3D%3D; _nk_=%5Cu5C0F%5Cu98DE546466464; sgcookie=E100Bs1xaiIgmi%2BfsSe95re%2Bv1bEmYmPPnsBGubTJ7zAE5Ay%2BrsiF%2BR1k6FWNTsHm%2B%2FE7Fv1IGDzgyA6Is8fxoE6QQ%3D%3D; sg=424; csg=1de83e78; sm4=510114; l=eBP-ZQ7PO6NKKWWjBO5B-urza779XQdXflVzaNbMiInca6wRHF1obNCIom2H2dtjgtfx2eKyGmkaaR3XWb4LRx6CKvtgjqf1zV965; tfstk=crt5BNfZ97V7HeuU4LM44nbKIKQfaBM1Kz66FUSMCDtaBROhMsX3b1iXFwVUDNBf.; isg=BLq6zuiKjgbwjT1xKpzXpp0HC-Dcaz5FDAxL3MSwlM0Yt1XxrflAVWGBB0NrHLbd"));
+//            post.addHeader(new BasicHeader("Cookie", "cookie17=UUwVZ%2FVd30BdBQ%3D%3D; _nk_=%5Cu5C0F%5Cu98DE546466464; sgcookie=E100Bs1xaiIgmi%2BfsSe95re%2Bv1bEmYmPPnsBGubTJ7zAE5Ay%2BrsiF%2BR1k6FWNTsHm%2B%2FE7Fv1IGDzgyA6Is8fxoE6QQ%3D%3D; sg=424; csg=1de83e78; sm4=510114; l=eBP-ZQ7PO6NKKWWjBO5B-urza779XQdXflVzaNbMiInca6wRHF1obNCIom2H2dtjgtfx2eKyGmkaaR3XWb4LRx6CKvtgjqf1zV965"));
+//            post.addHeader(new BasicHeader("Referer", "https://buy.tmall.com/order/confirm_order.htm?spm=a1z0d.6639537.0.0.undefined"));
+//            post.addHeader(new BasicHeader("Origin", "https://buy.tmall.com"));
+//            post.addHeader(new BasicHeader("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8"));
+//            post.addHeader(new BasicHeader(":path", "/auction/json/async_linkage.do?_input_charset=utf-8"));
+//            post.addHeader(new BasicHeader(":authority", "buy.tmall.com"));
+//            post.addHeader(new BasicHeader(":method", "POST"));
+//            post.addHeader(new BasicHeader(":scheme", "https"));
+//            post.addHeader(new BasicHeader("accept", "application/json, text/javascript, */*; q=0.01"));
 //            post.addHeader(new BasicHeader("accept-encoding", "gzip, deflate, br"));
-            post.addHeader(new BasicHeader("accept-language", "zh-CN,zh;q=0.9"));
-            post.addHeader(new BasicHeader("user-agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/86.0.4240.183 Safari/537.36"));
+//            post.addHeader(new BasicHeader("accept-language", "zh-CN,zh;q=0.9"));
+//            post.addHeader(new BasicHeader("user-agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/86.0.4240.183 Safari/537.36"));
             post.addHeader(new BasicHeader("x-requested-with", "XMLHttpRequest"));
             //
 //            client.getParams().setParameter(CoreProtocolPNames.PROTOCOL_VERSION, HttpVersion.HTTP_1_0);
