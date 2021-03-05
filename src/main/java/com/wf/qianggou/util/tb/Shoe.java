@@ -1,8 +1,11 @@
-package com.wf.qianggou.util.http;
+package com.wf.qianggou.util.tb;
 
 import com.alibaba.fastjson.JSONObject;
 import com.wf.qianggou.config.SysConstants;
+import com.wf.qianggou.util.GetServerTimeOfTb;
 import com.wf.qianggou.util.SSLClient;
+import com.wf.qianggou.util.http.ConfirmOrderService2;
+import com.wf.qianggou.util.http.GetOrderData;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.http.HttpEntity;
 import org.apache.http.client.methods.CloseableHttpResponse;
@@ -13,20 +16,36 @@ import org.apache.http.message.BasicHeader;
 import org.apache.http.util.EntityUtils;
 
 import java.net.URLEncoder;
-import java.util.ArrayList;
-import java.util.List;
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.util.Date;
 import java.util.Map;
 
 /**
- * 下订单接口模拟，从buy.接口的返回直接取 orderData 编一下 url 码，作为下订单的参数
- * 当前已成功实现下单，更换 cookie 即可
- * 抢购《最生活毛巾》，暂时封存代码
+ * 鞋子的抢购
+ *
  *
  * @author wf
  * @date 2021年02月22日 16:32
  */
 @Slf4j
-public class ConfirmOrderService2 {
+public class Shoe {
+
+    private static long needTime;
+    /**
+     * 2021-03-05 15:40:00 000
+     */
+    private static String buyDateTime = "2021-03-08 08:00:00 000";
+    private static String buyTime = " 20:00:00 000";
+
+    static {
+//        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+//        Date date = new Date();
+//        buyDateTime = sdf.format(date) + buyTime;
+        LocalDateTime parse = LocalDateTime.parse(buyDateTime, SysConstants.dateTimeFormatter);
+        needTime = LocalDateTime.from(parse).atZone(ZoneId.systemDefault()).toInstant().toEpochMilli();
+    }
 
     /**
      * 返回成功状态码
@@ -117,7 +136,7 @@ public class ConfirmOrderService2 {
         url += "&sparam1=" + sparam1;
 
         // 清除掉多余的数据
-        clearMap(orderDataMap);
+        ConfirmOrderService2.clearMap(orderDataMap);
 
         String endpointStr = orderDataMap.get("endpoint").toString();
         String dataStr = orderDataMap.get("data").toString();
@@ -149,6 +168,19 @@ public class ConfirmOrderService2 {
 
         String bodyStr = sb.substring(0, sb.length() - 1);
 
+        long start = System.currentTimeMillis();
+        long ld = GetServerTimeOfTb.getServiceTime();
+        long end = System.currentTimeMillis();
+        long p = end - start;
+        log.info("p = {}", p);
+
+        if (needTime > ld) {
+            // 时间未到，休眠一段时间再抢购，休眠时间 = 定时抢购时间 - 服务器时间 - 获取服务器时间接口 / 3
+            long sleep = needTime - ld - p / 3;
+            log.info("sleep = {}", sleep);
+            Thread.sleep(sleep);
+        }
+
         Object result = sendPost(preUrl + url, bodyStr, url);
         log.info("下订单接口请求参数 : {}", bodyStr);
 
@@ -156,68 +188,5 @@ public class ConfirmOrderService2 {
         System.out.println(result);
     }
 
-    public static void clearMap(Map<String, Object> map) {
-        map.remove("container");
-        map.remove("reload");
-
-        // 1.linkage
-        Map<String, Object> linkage = (Map<String, Object>) map.get("linkage");
-
-        linkage.remove("input");
-        linkage.remove("request");
-        linkage.remove("url");
-        Map<String, Object> common = (Map<String, Object>) linkage.get("common");
-        common.remove("queryParams");
-
-        // 2.hierarchy
-        Map<String, Object> hierarchy = (Map<String, Object>) map.get("hierarchy");
-        hierarchy.remove("baseType");
-        hierarchy.remove("component");
-        hierarchy.remove("root");
-
-        // 3.data  frontTracePC_1
-        Map<String, Object> data = (Map<String, Object>) map.get("data");
-        data.remove("frontTracePC_1");
-        data.remove("menberBenefitsFlex_1");
-        data.remove("orderDesc_orderDesc_1");
-        data.remove("realPayPC_1");
-        data.remove("riderClauseContentFlex_riderClause_content_1");
-        data.remove("riderClausePC_riderClause_1");
-        data.remove("stationTabPC_1");
-        data.remove("stepbarPC_1");
-        data.remove("urlTransferPC_1");
-
-        List<String> removeKeys = new ArrayList<>();
-        for (Map.Entry<String, Object> set : data.entrySet()) {
-            if (set.getKey().contains("orderExtLeftPC_")) {
-                removeKeys.add(set.getKey());
-            } else if (set.getKey().contains("orderExtPC_")) {
-                removeKeys.add(set.getKey());
-            } else if (set.getKey().contains("orderExtRightPC_")) {
-                removeKeys.add(set.getKey());
-            } else if (set.getKey().contains("orderExtUpperPC_")) {
-                removeKeys.add(set.getKey());
-            } else if (set.getKey().contains("orderPayLayoutPC_")) {
-                removeKeys.add(set.getKey());
-            } else if (set.getKey().contains("orderPayPC_")) {
-                removeKeys.add(set.getKey());
-            } else if (set.getKey().contains("order_")) {
-                removeKeys.add(set.getKey());
-            } else if (set.getKey().contains("presellDescGroupPC_presellDescGroup_")) {
-                removeKeys.add(set.getKey());
-            } else if (set.getKey().contains("seller_")) {
-                removeKeys.add(set.getKey());
-            } else if (set.getKey().contains("itemInfoPC_")) {
-                Map itemInfoPC_ = (Map) set.getValue();
-                Map fields = (Map) itemInfoPC_.get("fields");
-                Map priceInfo = (Map) fields.get("priceInfo");
-                Map valueStyles = (Map) priceInfo.get("valueStyles");
-                valueStyles.remove("bold", Boolean.TRUE);
-            }
-        }
-        for (String key : removeKeys) {
-            data.remove(key);
-        }
-    }
 
 }

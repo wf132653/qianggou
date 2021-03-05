@@ -66,7 +66,7 @@ public class BuyService {
             post.setHeader(new BasicHeader("accept-language", "zh-CN,zh;q=0.9"));
             post.setHeader(new BasicHeader("cache-control", "max-age=0"));
             post.setHeader(new BasicHeader("content-type", "application/x-www-form-urlencoded"));
-            post.setHeader(new BasicHeader("cookie", "cna=vswvGMk9ymUCAbaWP+aWkFr3; lid=%E5%B0%8F%E9%A3%9E546466464; enc=xH08HkVNFnMiMJezzBT2YuOeTIopL1QU9gW8Kyoo%2FShx%2FV7w%2B4NSJMHYDO7EzDpv7h1XglEQP9QKvINN0u9Hzg%3D%3D; hng=CN%7Czh-CN%7CCNY%7C156; t=d85da4d42ac8fea5bf4b3432ef3933bc; tracknick=%5Cu5C0F%5Cu98DE546466464; cookie2=1250a92a2efa69ec26ac92b7f208ed85; lgc=%5Cu5C0F%5Cu98DE546466464; dnk=%5Cu5C0F%5Cu98DE546466464; _tb_token_=fbe5b7348e1db; sm4=510100; _m_h5_tk=f408ae7cdb0a1b6a04dae73acfc8d805_1614050863176; _m_h5_tk_enc=a970bd8a4855f8e2cbde5648290f79a8; xlly_s=1; login=true; uc1=cookie16=V32FPkk%2FxXMk5UvIbNtImtMfJQ%3D%3D&pas=0&cookie21=VT5L2FSpccLuJBreKQgf&cookie14=Uoe1hgbXafOgEg%3D%3D&existShop=true&cart_m=0&cookie15=VFC%2FuZ9ayeYq2g%3D%3D; uc3=lg2=U%2BGCWk%2F75gdr5Q%3D%3D&nk2=synFqM53%2B34OOhN8lQ%3D%3D&vt3=F8dCuASh7qCZTbI2u%2Fw%3D&id2=UUwVZ%2FVd30BdBQ%3D%3D; _l_g_=Ug%3D%3D; uc4=id4=0%40U27KCxnkg%2BYg1C7JnsLDOKY%2B5aUn&nk4=0%40sVZlAh7wOoLIYyo1%2BRQD2VSDMCI2LAuk; unb=2453833782; cookie1=BYlsb5eBt59VpQOOC2%2BctMOI%2FdeOecij6kZgsgiprqE%3D; cookie17=UUwVZ%2FVd30BdBQ%3D%3D; _nk_=%5Cu5C0F%5Cu98DE546466464; sgcookie=E100Izywjkc2GOFw5N23PoPRlTmqUpz%2FKg6keugoH7gc%2FHYUktpsmsOozRnU9d546RQVgJfoeX1RLVYYMxMIHydDxQ%3D%3D; sg=424; csg=74dd55bb; isg=BEdHojlw6-rBLFD619sSHTiY1vsRTBsuycNmlxk0WFb9iGdKIRt_fodJLkjWYPOm"));
+            post.setHeader(new BasicHeader("cookie", "_uab_collina=161413318980644604583123; ucn=center; _bl_uid=L5k60l9yh4daagnORyCsmR8xdeFa; _samesite_flag_=true; cookie2=19986533f8b4ab3a058294eb4e19e07e; t=a51b8b7d7a650d13d6143d0ceeabd60c; thw=cn; enc=xam7T7YitMXGKFwifcY%2BeTrgGeiSSFnblXZTBKYbCRaUsCYEqLnZARxWBeWWcw%2FJWAx7DAgxjWWwx4%2FwagTjrg%3D%3D; tk_trace=oTRxOWSBNwn9dPyorMJE%2FoPdY8zfvmw%2Fq5v21Uhul0tWM%2F3IFOmkAQHOu4HVDVXY6E6MTGC9i9lhsA1zqc2h%2BDOmYA6qd19S9MfdmNvNpkF1MVKjsJ6XNmR%2Bs1rLJig0RcUymar4MV7fIGFRtwH7sp8Nk4AG5ROICyTxWUD6sZlMIZQS10KUgCD7eoOvtTTOMi8GOg7%2BBTikjrMZZvuqDpGXatABqSOKBoK7dWEM1UZIBfwljlXwbcqle73wGBmqKCJqJ4z3eTZp%2Foa2q1QXT1qmZArjJw%3D%3D; cna=vswvGMk9ymUCAbaWP+aWkFr3; lgc=%5Cu5C0F%5Cu98DE546466464; dnk=%5Cu5C0F%5Cu98DE546466464; tracknick=%5Cu5C0F%5Cu98DE546466464; v=0; hng=CN%7Czh-CN%7CCNY%7C156; _tb_token_=e983eee43be30; ctoken=082MAFpGs5NZlIaO3jvPrhllor; mt=ci=1_1; _m_h5_tk=3f3861f5244f92f207c99bde97441b15_1614835312765; _m_h5_tk_enc=a0a807ac84177af555a7693bfdfa798b; xlly_s=1; unb=2453833782; uc3=id2=UUwVZ%2FVd30BdBQ%3D%3D&vt3=F8dCuAVnQZqWcnWqJ9c%3D&lg2=UtASsssmOIJ0bQ%3D%3D&nk2=synFqM53%2B34OOhN8lQ%3D%3D; csg=65e6652d; cookie17=UUwVZ%2FVd30BdBQ%3D%3D; sgcookie=E100y%2FkF1Lmtom5mY5S%2Bt5jA71CNJsjXyOsBcEgXlcyfnxZquSSy8N4JQ31840CJI3cL%2BKuRmr81sESVdwPqORLHaA%3D%3D; skt=de415e393d916bdd; existShop=MTYxNDg0NjA5Mg%3D%3D; uc4=id4=0%40U27KCxnkg%2BYg1C7JnsLDMBKtv%2B3B&nk4=0%40sVZlAh7wOoLIYyo1%2BRQD2VSDOD51Fqj%2B; _cc_=V32FPkk%2Fhw%3D%3D; _l_g_=Ug%3D%3D; sg=424; _nk_=%5Cu5C0F%5Cu98DE546466464; cookie1=BYlsb5eBt59VpQOOC2%2BctMOI%2FdeOecij6kZgsgiprqE%3D; uc1=cookie14=Uoe1hg5UjPlGWQ%3D%3D&cookie16=UIHiLt3xCS3yM2h4eKHS9lpEOw%3D%3D&cookie15=WqG3DMC9VAQiUQ%3D%3D&existShop=true&pas=0&cookie21=U%2BGCWk%2F7p4mBoUyS4plD&cart_m=0; tfstk=cYeAByMhCabD-um8YSCk5-6otlIhZ2YtriiWBMjOAYulYq9OiT23pOJeG4YxegC..; l=eBScYSngOGNva6SCBOfZhurza779OIRA_uPzaNbMiOCPOufH5SyOW6NvqwLMCnGVh6fyR3Rj0APyBeYBqIccSQLrQLBHiKMmn; isg=BFpa8onZ7hUnTl1NcWbsRh8BqwB8i95l7OyrPGTTJ-241_oRTBrVdLUlo6PLAFb9"));
             post.setHeader(new BasicHeader("origin", "https://cart.taobao.com"));
             post.setHeader(new BasicHeader("referer", "https://cart.taobao.com/"));
             post.setHeader(new BasicHeader("sec-fetch-dest", "document"));
@@ -114,19 +114,28 @@ public class BuyService {
     }
 
     public static String getOrderData() throws Exception{
+        // 总结，同一个商品，就三个地方的 cartId 不一样，source_time，createTime 不一样
+        // 同一个商品，url的 spm 参数是一样的
+        // 不同商品，除了上述以外，还有不一样的是：itemId、skuId、sellerId
         String url = "https://buy.tmall.com/order/confirm_order.htm?spm=a1z0d.6639537.0.0.undefined";
 
         Map<String, Object> body = new HashMap<>();
         body.put("hex", "n");
-        body.put("cartId", "2759533220026");
-        body.put("sellerid", "725677994");
-        body.put("cart_param", "{\"items\":[{\"cartId\":\"2759533220026\",\"itemId\":\"582408570328\",\"skuId\":\"3902332244990\",\"quantity\":1,\"createTime\":1614005135000,\"attr\":\";\"}]}");
+        body.put("cartId", "2792812663850");// 不一样
+        body.put("sellerid", "725677994");// 同一个商品是一样的
+        // 同一个商品，里面的cartId不一样
+        body.put("cart_param", "{\"items\":[{\"cartId\":\"2792812663850\",\"itemId\":\"582408570328\",\"skuId\":\"3902332244990\",\"quantity\":1,\"createTime\":1614908068000,\"attr\":\";op:1900;dpbUpgrade:0;cityCode:510100;\"}]}");
         body.put("unbalance", "");
-        body.put("delCartIds", "2759533220026");
+        body.put("delCartIds", "2792812663850");
         body.put("use_cod", "false");
         body.put("buyer_from", "cart");
         body.put("page_from", "cart");
-        body.put("source_time", "1614063649209");
+        // 肯定都不一样，todo 暂时没找到来源
+        body.put("source_time", "1614908523825");
+        // spm a1z0d.6639537.1997525049.1.36697484rhpf20
+        //     1z0d.6639537.1997525049.1.36697484rhpf20
+        // pm_id 1501036000a02c5c3739
+        //       1501036000a02c5c3739
 
 
         StringBuilder sb = new StringBuilder();
@@ -135,8 +144,13 @@ public class BuyService {
         }
 
         String bodyStr = sb.substring(0, sb.length() -1);
-        Object str = sendPost(url, bodyStr);
-        System.out.println(str.toString());
-        return str.toString();
+        String res = sendPost(url, bodyStr).toString();
+        int orderDataIndex = res.indexOf("orderData");
+        int reloadIndex = res.indexOf("\"reload\":true");
+        String re = res.substring(orderDataIndex + 11, reloadIndex + 14);
+        System.out.println("----------------------------------");
+        System.out.println(re);
+        System.out.println("----------------------------------");
+        return re;
     }
 }

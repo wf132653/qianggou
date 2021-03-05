@@ -2,12 +2,12 @@ package com.wf.qianggou.controller;
 
 import com.wf.qianggou.util.selenium.OpenLastWebDriver;
 import com.wf.qianggou.util.selenium.RunnerOfShoppingDetail;
-import org.openqa.selenium.chrome.ChromeDriver;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpServletRequest;
+import java.util.Arrays;
+import java.util.Enumeration;
 
 /**
  * demo_class
@@ -19,8 +19,6 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/order")
 public class AutoConfirmOrderController {
 
-    @Autowired
-    private RedisTemplate redisTemplate;
     @Autowired
     private RunnerOfShoppingDetail runnerOfShoppingDetail;
     @Autowired
@@ -36,12 +34,26 @@ public class AutoConfirmOrderController {
         openLastWebDriver.save();
     }
 
-    @GetMapping("/test")
-    public void test(){
-        Object taobao = redisTemplate.opsForValue().get("taobao");
-        ChromeDriver driver = (ChromeDriver)taobao;
-        System.out.println(driver.getTitle());
-        System.out.println(driver.getCurrentUrl());
+    @PostMapping("/test")
+    public void test(@RequestBody String body, HttpServletRequest request){
+//        System.out.println("body = " + body);
+//        if(body != null){
+//            String[] strs = body.split("&");
+//            Arrays.stream(strs).forEach(System.out::println);
+//        }
+//        Enumeration headerNames =  request.getHeaderNames();
+//        while (headerNames.hasMoreElements()){
+//            Object name = headerNames.nextElement();
+//            System.out.println("name = " + name);
+//            System.out.println("value = " + request.getHeader(name.toString()));
+//        }
+//        Enumeration<String> pStringEnumeration = request.getParameterNames();
+//        while (pStringEnumeration.hasMoreElements()){
+//            Object name = pStringEnumeration.nextElement();
+//            System.out.println("name2 = " + name);
+//            System.out.println("value2 = " + request.getParameter(name.toString()));
+//        }
+        System.out.println("request.getSession().getId() = " + request.getSession().getId());
     }
 
 }

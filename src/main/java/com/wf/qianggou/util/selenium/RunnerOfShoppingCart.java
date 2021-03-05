@@ -6,6 +6,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Collections;
 
+import com.wf.qianggou.util.GetServerTimeOfTb;
 import lombok.extern.slf4j.Slf4j;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -14,6 +15,7 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 
 import org.openqa.selenium.*;
+import org.openqa.selenium.interactions.Actions;
 
 /**
  * 登录 -> 跳转购物车 -> 勾选所有商品 -> 点击结算 -> 提交订单
@@ -31,7 +33,7 @@ public class RunnerOfShoppingCart {
 
     static {
         System.setProperty("webdriver.firefox.bin", "D:\\soft\\FireFox\\install\\firefox.exe");
-        String buyTime = "2021/02/26-16:55:00 000";
+        String buyTime = "2021/03/03-10:23:00 000";
         try {
             needTime = sdf.parse(buyTime).getTime();
         } catch (ParseException e) {
@@ -78,25 +80,44 @@ public class RunnerOfShoppingCart {
         // 勾选购物车内所有商品
         webDriver.findElement(By.className("cart-checkbox")).click();
         Thread.sleep(1000);
+        long setStart = System.currentTimeMillis();
         WebElement settlement = webDriver.findElement(By.linkText("结 算"));
+        long setEnd = System.currentTimeMillis();
+        log.info("页面上找 结算 按钮花费的时间 : {}", setEnd - setStart);
+
+        Actions actions = new Actions(webDriver);
+        actions.moveByOffset(500, 400);
+        actions.build().perform();
+        log.info("提交订单1.1 : {}", formatter.format(LocalDateTime.now()));
+        actions.moveByOffset(500, 400);
+        actions.build().perform();
+        log.info("提交订单1.2 : {}", formatter.format(LocalDateTime.now()));
+        actions.moveByOffset(424, 287);
+        actions.build().perform();
+        log.info("提交订单1.3 : {}", formatter.format(LocalDateTime.now()));
 
         // 开始抢
         log.info("本地时间 : {}", formatter.format(LocalDateTime.now()));
         long start = System.currentTimeMillis();
-        long ld = RunnerOfShoppingDetail.getSiteDate();
+        long ld = GetServerTimeOfTb.getServiceTime();
         long end = System.currentTimeMillis();
         long p = end - start;
+        log.info("p = {}", p);
+
 
         if (needTime > ld) {
             // 时间未到，休眠一段时间再抢购，休眠时间 = 定时抢购时间 - 服务器时间 - 获取服务器时间接口 / 3
             long sleep = needTime - ld - p / 3;
-            System.out.println("sleep = " + sleep);
+            log.info("sleep = {}", sleep);
             Thread.sleep(sleep);
         }
+
         // 结算
+        log.info("提交订单1.4 : {}", formatter.format(LocalDateTime.now()));
         settlement.click();
+        log.info("提交订单1.5 : {}", formatter.format(LocalDateTime.now()));
         // 提交订单
-        confirmOrder(webDriver);
+        confirmOrder(webDriver, actions);
     }
 
     private static void passwordLogin(WebDriver webDriver) throws Exception {
@@ -133,34 +154,39 @@ public class RunnerOfShoppingCart {
         }
     }
 
-    private static boolean confirmOrder(WebDriver webDriver) {
+    private static boolean confirmOrder(WebDriver webDriver, Actions actions) {
         log.info("confirmOrder1 : {}", formatter.format(LocalDateTime.now()));
         int times = 0;
-        long start = 0,end = 0;
         boolean success = false;
         // 点击立即购买
         // 点击提交订单
         while (times++ < 40) {
-            start = System.currentTimeMillis();
             try {
-                Thread.sleep(end > 0 && (end - start) < 50 ? end - start : 0);
-                log.info("提交订单1 : {}", formatter.format(LocalDateTime.now()));
+                Thread.sleep(25);
+//                log.info("提交订单1 : {}", formatter.format(LocalDateTime.now()));
 //                WebElement element = webDriver.findElement(By.linkText("提交订单"));
+//                System.out.println(element.getLocation().toString());
                 // 提交订单 :(1424, 1087)
-                RunnerOfShoppingDetail.moveToClick(webDriver, 1424, 1087, false);
-                log.info("提交订单2 : {}", formatter.format(LocalDateTime.now()));
+
+                log.info("提交订单2.1 : {}", formatter.format(LocalDateTime.now()));
+                Actions actions1 = actions.click();
+                log.info("提交订单2.2 : {}", formatter.format(LocalDateTime.now()));
+                actions1.perform();
+//
+//                RunnerOfShoppingDetail.moveToClick(webDriver, 1424, 1087, false);
+                log.info("提交订单2.3 : {}", formatter.format(LocalDateTime.now()));
 //                element.click();
                 success = true;
 //                System.out.println("提交订单 : " + element.getLocation().toString());
-                break;
+
+//                break;
             } catch (Exception e) {
-                if (times == 20) {
+                if (times == 21) {
                     log.info("提交订单没找到 : {}", e.getMessage());
                 } else {
                     log.info("提交订单的错误 : {}", e);
                 }
             }
-            end = System.currentTimeMillis();
         }
         log.info("times2 = " + times);
         log.info("confirmOrder2 : {}", formatter.format(LocalDateTime.now()));
