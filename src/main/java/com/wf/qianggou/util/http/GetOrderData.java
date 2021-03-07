@@ -184,7 +184,7 @@ public class GetOrderData {
 //        log.info("p = {}", p);
             log.info("ld = {}", ld);
             long sleep = needTime - ld;
-            sleep -= 800;
+            sleep -= 300;
 
             if (sleep > 0) {
                 // 时间未到，休眠一段时间再抢购，休眠时间 = 定时抢购时间 - 服务器时间 - 获取服务器时间接口 / 3
