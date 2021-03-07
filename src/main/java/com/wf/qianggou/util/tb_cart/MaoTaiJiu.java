@@ -1,8 +1,7 @@
-package com.wf.qianggou.util.tb;
+package com.wf.qianggou.util.tb_cart;
 
 import com.alibaba.fastjson.JSONObject;
 import com.wf.qianggou.config.SysConstants;
-import com.wf.qianggou.util.GetServerTimeOfTb;
 import com.wf.qianggou.util.SSLClient;
 import com.wf.qianggou.util.http.ConfirmOrderService2;
 import com.wf.qianggou.util.http.GetOrderData;
@@ -165,7 +164,7 @@ public class MaoTaiJiu {
                 orderDataMap.put("_tb_token_", "e983eee43be30");
                 orderDataMap.put("action", "/order/multiTerminalSubmitOrderAction");
 
-                log.info("下订单接口请求参数(json)  : {}", JSONObject.toJSONString(orderDataMap));
+//                log.info("下订单接口请求参数(json)  : {}", JSONObject.toJSONString(orderDataMap));
 
                 success = true;
             }catch (Exception e){
@@ -196,8 +195,9 @@ public class MaoTaiJiu {
 //            log.info("sleep = {}", sleep);
 //            Thread.sleep(sleep);
 //        }
+        long start = System.currentTimeMillis();
         Object result = null;
-        while (System.currentTimeMillis() - getOrderData.getSendPostTime() < 3000){
+        while (System.currentTimeMillis() - start < 3000){
             result = sendPost(preUrl + url, bodyStr, url);
         }
         log.info("下订单接口请求参数 : {}", bodyStr);

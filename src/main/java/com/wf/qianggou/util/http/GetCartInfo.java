@@ -43,7 +43,7 @@ public class GetCartInfo {
      * @return JSON或者字符串
      * @throws Exception 异常
      */
-    public static String sendGet(String url) throws Exception {
+    public String sendGet(String url) throws Exception {
         // https
         CloseableHttpClient client = new SSLClient();
         CloseableHttpResponse response = null;
@@ -76,11 +76,11 @@ public class GetCartInfo {
     }
 
     public static void main(String[] args) throws Exception{
-        getCart();
+        new GetCartInfo().getCart();
     }
 
 
-    public static Map getCart() throws Exception {
+    public Map getCart() throws Exception {
         String url = "https://cart.taobao.com/cart.htm?spm=a10d.6639537.1997525049.1.36697484rhpf20&from=mini&ad_id&am_id&cm_id&pm_id=1501036000a02c5c3739";
         String res = sendGet(url);
         int firstDataIndex = res.indexOf("firstData");

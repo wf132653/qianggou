@@ -30,6 +30,8 @@ import java.util.Map;
 @Slf4j
 public class GetOrderData {
 
+    private String bodyStr = null;
+
     private static long needTime;
     private long sendPostTime = 0;
     /**
@@ -127,72 +129,76 @@ public class GetOrderData {
 
 
     public String getOrderData() throws Exception {
-        String url = "https://buy.tmall.com/order/confirm_order.htm?spm=a1z0d.6639537.0.0.undefined";
-        String createTime = "";
-        String quantity = "";
-        String skuId = "";
-        String itemId = "";
-        String cartId = "";
-        String sellerId = "";
-        Map cart = GetCartInfo.getCart();
-        List<Map> lists = (List<Map>) cart.get("list");
-        for (Map list : lists) {
-            List bundles = (List) list.get("bundles");
-            Map map = (Map) bundles.get(0);
-            List orders = (List) map.get("orders");
-            Map order = (Map) orders.get(0);
-            if (order.get("title").toString().contains(SysConstants.key)) {
-                createTime = order.get("createTime").toString();
-                quantity = ((Map) order.get("amount")).get("now").toString();
-                skuId = order.get("skuId").toString();
-                itemId = order.get("itemId").toString();
-                cartId = order.get("cartId").toString();
-                sellerId = order.get("sellerId").toString();
-                break;
+        if(bodyStr == null){
+            String createTime = "";
+            String quantity = "";
+            String skuId = "";
+            String itemId = "";
+            String cartId = "";
+            String sellerId = "";
+            GetCartInfo getCartInfo = new GetCartInfo();
+            Map cart = getCartInfo.getCart();
+            List<Map> lists = (List<Map>) cart.get("list");
+            for (Map list : lists) {
+                List bundles = (List) list.get("bundles");
+                Map map = (Map) bundles.get(0);
+                List orders = (List) map.get("orders");
+                Map order = (Map) orders.get(0);
+                if (order.get("title").toString().contains(SysConstants.key)) {
+                    createTime = order.get("createTime").toString();
+                    quantity = ((Map) order.get("amount")).get("now").toString();
+                    skuId = order.get("skuId").toString();
+                    itemId = order.get("itemId").toString();
+                    cartId = order.get("cartId").toString();
+                    sellerId = order.get("sellerId").toString();
+                    break;
+                }
             }
-        }
 
-        this.itemId = itemId;
-        Map<String, Object> map = initMap();
-        StringBuilder cart_patam = new StringBuilder("{\"items\":[{\"cartId\":\"\",\"itemId\":\"\",\"skuId\":\"\",\"quantity\":\"\",\"createTime\":\"\",\"attr\":\";op:1900;dpbUpgrade:0;cityCode:510100;\"}]}");
-        cart_patam.insert(74, createTime);
-        cart_patam.insert(58, quantity);
-        cart_patam.insert(44, skuId);
-        cart_patam.insert(33, itemId);
-        cart_patam.insert(21, cartId);
-        map.put("cart_param", cart_patam);
-        map.put("cartId", cartId);
-        map.put("sellerid", sellerId);
-        map.put("delCartIds", cartId);
+            this.itemId = itemId;
+            Map<String, Object> map = initMap();
+            StringBuilder cart_patam = new StringBuilder("{\"items\":[{\"cartId\":\"\",\"itemId\":\"\",\"skuId\":\"\",\"quantity\":\"\",\"createTime\":\"\",\"attr\":\";op:1900;dpbUpgrade:0;cityCode:510100;\"}]}");
+            cart_patam.insert(74, createTime);
+            cart_patam.insert(58, quantity);
+            cart_patam.insert(44, skuId);
+            cart_patam.insert(33, itemId);
+            cart_patam.insert(21, cartId);
+            map.put("cart_param", cart_patam);
+            map.put("cartId", cartId);
+            map.put("sellerid", sellerId);
+            map.put("delCartIds", cartId);
 
-        StringBuilder sb = new StringBuilder();
-        for (Map.Entry<String, Object> set : map.entrySet()) {
-            sb.append(set.getKey()).append("=").append(set.getValue()).append("&");
-        }
+            StringBuilder sb = new StringBuilder();
+            for (Map.Entry<String, Object> set : map.entrySet()) {
+                sb.append(set.getKey()).append("=").append(set.getValue()).append("&");
+            }
 
-        String bodyStr = sb.substring(0, sb.length() - 1);
+            bodyStr = sb.substring(0, sb.length() - 1);
 
 
 //        long start = System.currentTimeMillis();
 //        long ld = GetServerTimeOfTb.getServiceTime();
-        long ld = System.currentTimeMillis();
+            long ld = System.currentTimeMillis();
 //        long end = System.currentTimeMillis();
 //        long p = end - start;
 //        log.info("p = {}", p);
-        log.info("ld = {}", ld);
-        long sleep = needTime - ld;
-        sleep -= 1000;
+            log.info("ld = {}", ld);
+            long sleep = needTime - ld;
+            sleep -= 800;
 
-        if (sleep > 0) {
-            // 时间未到，休眠一段时间再抢购，休眠时间 = 定时抢购时间 - 服务器时间 - 获取服务器时间接口 / 3
+            if (sleep > 0) {
+                // 时间未到，休眠一段时间再抢购，休眠时间 = 定时抢购时间 - 服务器时间 - 获取服务器时间接口 / 3
 //            long sleep = needTime - ld - p / 3;
-            log.info("sleep = {}", sleep);
-            Thread.sleep(sleep);
+                log.info("sleep = {}", sleep);
+                Thread.sleep(sleep);
+            }
+            if(sendPostTime == 0){
+                sendPostTime = System.currentTimeMillis();
+            }
+
         }
 
-        if(sendPostTime == 0){
-            sendPostTime = System.currentTimeMillis();
-        }
+        String url = "https://buy.tmall.com/order/confirm_order.htm?spm=a1z0d.6639537.0.0.undefined";
         String res = sendPost(url, bodyStr);
         int firstDataIndex = res.indexOf("orderData");
         int successIndex = res.indexOf("\"reload\":true");
