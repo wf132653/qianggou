@@ -1,5 +1,6 @@
 package com.wf.qianggou;
 
+import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -8,6 +9,7 @@ import org.junit.jupiter.api.Test;
  * @author wf
  * @date 2021年03月06日 21:43
  */
+@Slf4j
 public class Test3 {
 
     @Test

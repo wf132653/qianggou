@@ -2,7 +2,6 @@ package com.wf.qianggou.util.http;
 
 import com.alibaba.fastjson.JSONObject;
 import com.wf.qianggou.config.SysConstants;
-import com.wf.qianggou.util.GetServerTimeOfTb;
 import com.wf.qianggou.util.SSLClient;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.http.HttpEntity;
@@ -13,10 +12,6 @@ import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.message.BasicHeader;
 import org.apache.http.util.EntityUtils;
 
-import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.util.Date;
 import java.util.Map;
 
 /**

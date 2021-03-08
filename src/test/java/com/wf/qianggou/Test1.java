@@ -29,7 +29,7 @@ public class Test1 {
     @Test
     public void test02()throws Exception{
         FastDateFormat dateFormat = FastDateFormat.getInstance("EEE, dd MMM yyyy HH:mm:ss z", TimeZone.getTimeZone("GMT"), Locale.ENGLISH);
-        Date date = dateFormat.parse("Mon, 01 Mar 2021 06:00:03 GMT");
+        Date date = dateFormat.parse("Mon, 08 Mar 2021 03:04:00 GMT");
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss SSS");
         System.out.println(sdf.format(date));
     }

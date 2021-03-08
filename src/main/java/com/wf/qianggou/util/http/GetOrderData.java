@@ -1,7 +1,6 @@
 package com.wf.qianggou.util.http;
 
 import com.wf.qianggou.config.SysConstants;
-import com.wf.qianggou.util.GetServerTimeOfTb;
 import com.wf.qianggou.util.SSLClient;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.http.HttpEntity;
@@ -38,22 +37,22 @@ public class GetOrderData {
      * 2021-03-05 15:40:00 000
      */
     private static String buyDateTime;
-    private static String buyTime = " 20:00:00 000";
 
     static {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         Date date = new Date();
-        buyDateTime = sdf.format(date) + buyTime;
+        buyDateTime = sdf.format(date) + SysConstants.buyTime;
         LocalDateTime parse = LocalDateTime.parse(buyDateTime, SysConstants.dateTimeFormatter);
         needTime = LocalDateTime.from(parse).atZone(ZoneId.systemDefault()).toInstant().toEpochMilli();
     }
 
     private String itemId = "";
 
-    public String getItemId(){
+    public String getItemId() {
         return itemId;
     }
-    public long getSendPostTime(){
+
+    public long getSendPostTime() {
         return sendPostTime;
     }
 
@@ -94,7 +93,16 @@ public class GetOrderData {
             post.addHeader(new BasicHeader("cache-control", "max-age=0"));
             post.addHeader(new BasicHeader("Content-Type", "application/x-www-form-urlencoded"));
             post.addHeader(new BasicHeader("Cookie", SysConstants.cookie));
-            post.addHeader(new BasicHeader("user-agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/86.0.4240.183 Safari/537.36"));
+            post.addHeader(new BasicHeader("user-agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.82 Safari/537.36"));
+            post.addHeader(new BasicHeader("origin", "https://cart.taobao.com"));
+            post.addHeader(new BasicHeader("referer", "https://cart.taobao.com/"));
+            post.addHeader(new BasicHeader("sec-ch-ua", "\"Google Chrome\";v=\"89\", \"Chromium\";v=\"89\", \";Not A Brand\";v=\"99\""));
+            post.addHeader(new BasicHeader("sec-ch-ua-mobile", "?0"));
+            post.addHeader(new BasicHeader("sec-fetch-dest", "document"));
+            post.addHeader(new BasicHeader("sec-fetch-mode", "navigate"));
+            post.addHeader(new BasicHeader("sec-fetch-site", "cross-site"));
+            post.addHeader(new BasicHeader("sec-fetch-user", "?1"));
+            post.addHeader(new BasicHeader("upgrade-insecure-requests", "1"));
 
             /**
              * 执行post请求
@@ -129,7 +137,7 @@ public class GetOrderData {
 
 
     public String getOrderData() throws Exception {
-        if(bodyStr == null){
+        if (bodyStr == null) {
             String createTime = "";
             String quantity = "";
             String skuId = "";
@@ -184,7 +192,7 @@ public class GetOrderData {
 //        log.info("p = {}", p);
             log.info("ld = {}", ld);
             long sleep = needTime - ld;
-            sleep -= 300;
+//            sleep += 400;
 
             if (sleep > 0) {
                 // 时间未到，休眠一段时间再抢购，休眠时间 = 定时抢购时间 - 服务器时间 - 获取服务器时间接口 / 3
@@ -192,7 +200,7 @@ public class GetOrderData {
                 log.info("sleep = {}", sleep);
                 Thread.sleep(sleep);
             }
-            if(sendPostTime == 0){
+            if (sendPostTime == 0) {
                 sendPostTime = System.currentTimeMillis();
             }
 

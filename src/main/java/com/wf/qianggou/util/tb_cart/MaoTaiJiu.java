@@ -3,6 +3,7 @@ package com.wf.qianggou.util.tb_cart;
 import com.alibaba.fastjson.JSONObject;
 import com.wf.qianggou.config.SysConstants;
 import com.wf.qianggou.util.SSLClient;
+import com.wf.qianggou.util.ThreadPoolUtil;
 import com.wf.qianggou.util.http.ConfirmOrderService2;
 import com.wf.qianggou.util.http.GetOrderData;
 import lombok.extern.slf4j.Slf4j;
@@ -15,11 +16,9 @@ import org.apache.http.message.BasicHeader;
 import org.apache.http.util.EntityUtils;
 
 import java.net.URLEncoder;
-import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.util.Date;
 import java.util.Map;
+import java.util.concurrent.Callable;
+import java.util.concurrent.FutureTask;
 
 /**
  * 茅台酒的抢购
@@ -32,20 +31,8 @@ import java.util.Map;
 @Slf4j
 public class MaoTaiJiu {
 
-    private static long needTime;
-    /**
-     * 2021-03-05 15:40:00 000
-     */
-    private static String buyDateTime;
-    private static String buyTime = " 18:00:00 000";
-
-    static {
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        Date date = new Date();
-        buyDateTime = sdf.format(date) + buyTime;
-        LocalDateTime parse = LocalDateTime.parse(buyDateTime, SysConstants.dateTimeFormatter);
-        needTime = LocalDateTime.from(parse).atZone(ZoneId.systemDefault()).toInstant().toEpochMilli();
-    }
+    private static volatile boolean ss = false;
+    private Object obj = new Object();
 
     /**
      * 返回成功状态码
@@ -61,7 +48,8 @@ public class MaoTaiJiu {
      * @throws Exception
      */
     public static Object sendPost(String url, String body, String path) throws Exception {
-        System.out.println("请求的url : " + url);
+        log.info("发起抢购");
+        log.info("请求的url : {}", url);
 
         CloseableHttpClient client = null;
         CloseableHttpResponse response = null;
@@ -95,10 +83,12 @@ public class MaoTaiJiu {
             response = client.execute(post);
             int statusCode = response.getStatusLine().getStatusCode();
             if (SUCCESS_CODE == statusCode) {
-                HttpEntity httpEntity = response.getEntity();
 
-                String result = EntityUtils.toString(httpEntity, "GBK");
-                return result;
+                return null;
+                // 获取结果也需要时间
+//                HttpEntity httpEntity = response.getEntity();
+//                String result = EntityUtils.toString(httpEntity, "GBK");
+//                return result;
             } else {
                 log.error("POST请求失败");
             }
@@ -117,12 +107,12 @@ public class MaoTaiJiu {
 
     private static void confirmOrder() throws Exception {
         String preUrl = "https://buy.tmall.com";
-        String url = "/auction/confirm_order.htm?x-uid=2453833782&submitref=";
+        StringBuilder url = new StringBuilder("/auction/confirm_order.htm?x-uid=2453833782&submitref=");
         GetOrderData getOrderData = new GetOrderData();
-        String orderDataStr = null;
+        String orderDataStr;
         boolean success = false;
         Map<String, Object> orderDataMap = null;
-        while (!success){
+        while (!success) {
             try {
                 orderDataStr = getOrderData.getOrderData();
 
@@ -136,9 +126,9 @@ public class MaoTaiJiu {
                 String secretValue = extensionMap.get("secretValue").toString();
                 String sparam1 = extensionMap.get("sparam1").toString();
 
-                url += secretValue;
-                url += "&x-itemid=" + getOrderData.getItemId();
-                url += "&sparam1=" + sparam1;
+                url.append(secretValue)
+                        .append("&x-itemid=").append(getOrderData.getItemId())
+                        .append("&sparam1=").append(sparam1);
 
                 // 清除掉多余的数据
                 ConfirmOrderService2.clearMap(orderDataMap);
@@ -167,10 +157,10 @@ public class MaoTaiJiu {
 //                log.info("下订单接口请求参数(json)  : {}", JSONObject.toJSONString(orderDataMap));
 
                 success = true;
-            }catch (Exception e){
+            } catch (Exception e) {
                 e.printStackTrace();
                 // 重试时间超过3秒，退出
-                if(System.currentTimeMillis() - getOrderData.getSendPostTime() > 3000){
+                if (System.currentTimeMillis() - getOrderData.getSendPostTime() > 3000) {
                     break;
                 }
             }
@@ -183,27 +173,40 @@ public class MaoTaiJiu {
 
         String bodyStr = sb.substring(0, sb.length() - 1);
 
-//        long start = System.currentTimeMillis();
-//        long ld = GetServerTimeOfTb.getServiceTime();
-//        long end = System.currentTimeMillis();
-//        long p = end - start;
-//        log.info("p = {}", p);
-//
-//        if (needTime > ld) {
-//            // 时间未到，休眠一段时间再抢购，休眠时间 = 定时抢购时间 - 服务器时间 - 获取服务器时间接口 / 3
-//            long sleep = needTime - ld - p / 3;
-//            log.info("sleep = {}", sleep);
-//            Thread.sleep(sleep);
-//        }
-        long start = System.currentTimeMillis();
-        Object result = null;
-        while (System.currentTimeMillis() - start < 3000){
-            result = sendPost(preUrl + url, bodyStr, url);
-        }
-        log.info("下订单接口请求参数 : {}", bodyStr);
+        log.info("开始抢购:{}", System.currentTimeMillis());
 
-        System.out.println("result");
-        System.out.println(result);
+        sendPost(preUrl, url, bodyStr);
+//        Object result = sendPost(preUrl, url, bodyStr);
+//        log.info("下订单接口请求参数 : {}", bodyStr);
+
+//        System.out.println("result");
+//        System.out.println(result);
+        if (ss) {
+            log.info("抢购成功");
+        } else {
+            log.info("抢购失败");
+        }
+
+    }
+
+
+    private static void sendPost(String preUrl, StringBuilder url, String bodyStr) throws Exception {
+        long start = System.currentTimeMillis();
+        while (System.currentTimeMillis() - start < 2000) {
+            ThreadPoolUtil.executor.execute(() -> {
+                try {
+                    sendPost(preUrl + url, bodyStr, url.toString());
+//                    Object result = sendPost(preUrl + url, bodyStr, url.toString());
+//                    ss = result != null && (result.toString().contains("正在创建支付宝安全链接"));
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            });
+//            if (ss) {
+//                break;
+//            }
+            Thread.sleep(250);
+        }
     }
 
 
