@@ -33,4 +33,13 @@ public class OpenLastWebDriver {
         System.out.println(driver.getCurrentUrl());
     }
 
+    public static void main(String[] args){
+        // 88955468
+
+        long time = (2 * 24 * + 7) * 60 * 60 * 1000 ;
+        System.out.println(time);
+
+
+    }
+
 }

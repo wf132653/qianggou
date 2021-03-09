@@ -76,7 +76,7 @@ public class MaoTaiJiu {
             post.addHeader(new BasicHeader("Sec-Fetch-Site", "same-origin"));
             post.addHeader(new BasicHeader("Sec-Fetch-User", "?1"));
             post.addHeader(new BasicHeader("Upgrade-Insecure-Requests", "1"));
-            post.addHeader(new BasicHeader("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/86.0.4240.183 Safari/537.36"));
+            post.addHeader(new BasicHeader("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.82 Safari/537.36"));
             post.addHeader(new BasicHeader("x-requested-with", "XMLHttpRequest"));
             post.addHeader(new BasicHeader("host", "buy.tmall.com"));
 
@@ -191,8 +191,7 @@ public class MaoTaiJiu {
 
 
     private static void sendPost(String preUrl, StringBuilder url, String bodyStr) throws Exception {
-        long start = System.currentTimeMillis();
-        while (System.currentTimeMillis() - start < 2000) {
+        while (System.currentTimeMillis() - GetOrderData.needTime < 2500) {
             ThreadPoolUtil.executor.execute(() -> {
                 try {
                     sendPost(preUrl + url, bodyStr, url.toString());

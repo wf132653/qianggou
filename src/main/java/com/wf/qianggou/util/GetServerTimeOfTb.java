@@ -1,6 +1,7 @@
 package com.wf.qianggou.util;
 
 import com.alibaba.fastjson.JSONObject;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.http.HttpEntity;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
@@ -20,6 +21,7 @@ import java.util.Map;
  * @author wf
  * @date 2020/03/25
  */
+@Slf4j
 public class GetServerTimeOfTb {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(GetServerTimeOfTb.class);
@@ -75,7 +77,15 @@ public class GetServerTimeOfTb {
     public static void main(String[] args) throws Exception {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss SSS");
         Date date = new Date();
-        date.setTime(getServiceTime());
+        log.info("now: {}", System.currentTimeMillis());
+        long tb = getServiceTime();
+        log.info("now: {}", System.currentTimeMillis());
+        // 280 11
+        // 238 23
+        // 232 45
+//        log.info("tb : {}", tb);
+//        log.info("lo : {}", System.currentTimeMillis());
+        date.setTime(tb);
         System.out.println(sdf.format(date));
     }
 

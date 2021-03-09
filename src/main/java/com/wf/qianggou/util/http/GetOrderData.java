@@ -1,6 +1,7 @@
 package com.wf.qianggou.util.http;
 
 import com.wf.qianggou.config.SysConstants;
+import com.wf.qianggou.util.GetServerTimeOfTb;
 import com.wf.qianggou.util.SSLClient;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.http.HttpEntity;
@@ -31,7 +32,7 @@ public class GetOrderData {
 
     private String bodyStr = null;
 
-    private static long needTime;
+    public static long needTime;
     private long sendPostTime = 0;
     /**
      * 2021-03-05 15:40:00 000
@@ -88,7 +89,9 @@ public class GetOrderData {
             /**
              * 设置请求的报文头部
              */
+            // 能识别是程序下单了，03-08，并不是能识别，而是提交订单页面需要验证一下验证码
             post.addHeader(new BasicHeader("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9"));
+            post.addHeader(new BasicHeader("accept-encoding", "deflate, br"));
             post.addHeader(new BasicHeader("accept-language", "zh-CN,zh;q=0.9"));
             post.addHeader(new BasicHeader("cache-control", "max-age=0"));
             post.addHeader(new BasicHeader("Content-Type", "application/x-www-form-urlencoded"));
@@ -103,6 +106,7 @@ public class GetOrderData {
             post.addHeader(new BasicHeader("sec-fetch-site", "cross-site"));
             post.addHeader(new BasicHeader("sec-fetch-user", "?1"));
             post.addHeader(new BasicHeader("upgrade-insecure-requests", "1"));
+            post.addHeader(new BasicHeader("host", "buy.tmall.com"));
 
             /**
              * 执行post请求
@@ -165,7 +169,7 @@ public class GetOrderData {
 
             this.itemId = itemId;
             Map<String, Object> map = initMap();
-            StringBuilder cart_patam = new StringBuilder("{\"items\":[{\"cartId\":\"\",\"itemId\":\"\",\"skuId\":\"\",\"quantity\":\"\",\"createTime\":\"\",\"attr\":\";op:1900;dpbUpgrade:0;cityCode:510100;\"}]}");
+            StringBuilder cart_patam = new StringBuilder("{\"items\":[{\"cartId\":\"\",\"itemId\":\"\",\"skuId\":\"\",\"quantity\":\"\",\"createTime\":\"\",\"attr\":\";\"}]}");
             cart_patam.insert(74, createTime);
             cart_patam.insert(58, quantity);
             cart_patam.insert(44, skuId);
@@ -184,15 +188,16 @@ public class GetOrderData {
             bodyStr = sb.substring(0, sb.length() - 1);
 
 
-//        long start = System.currentTimeMillis();
-//        long ld = GetServerTimeOfTb.getServiceTime();
+//            long start = System.currentTimeMillis();
+//            long ld = GetServerTimeOfTb.getServiceTime();
             long ld = System.currentTimeMillis();
-//        long end = System.currentTimeMillis();
-//        long p = end - start;
-//        log.info("p = {}", p);
+//            long end = System.currentTimeMillis();
+//            long p = end - start;
+//            log.info("p = {}", p);
             log.info("ld = {}", ld);
             long sleep = needTime - ld;
-//            sleep += 400;
+            // 抢购
+            sleep -= 1000;
 
             if (sleep > 0) {
                 // 时间未到，休眠一段时间再抢购，休眠时间 = 定时抢购时间 - 服务器时间 - 获取服务器时间接口 / 3
