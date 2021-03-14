@@ -196,6 +196,9 @@ public class GetOrderData {
 //            log.info("p = {}", p);
             log.info("ld = {}", ld);
             long sleep = needTime - ld;
+            // -018 不行 604可以
+            // 19:59:59.027 可以
+            // 19:59:59.018 19:59:59.617 19:59:59.903 不行 20:00:00.312 可以
             // 抢购
             sleep -= 1000;
 

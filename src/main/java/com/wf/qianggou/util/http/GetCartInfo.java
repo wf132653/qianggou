@@ -78,6 +78,7 @@ public class GetCartInfo {
     public Map getCart() throws Exception {
         String url = "https://cart.taobao.com/cart.htm?spm=a10d.6639537.1997525049.1.36697484rhpf20&from=mini&ad_id&am_id&cm_id&pm_id=1501036000a02c5c3739";
         String res = sendGet(url);
+        System.out.println(res);
         int firstDataIndex = res.indexOf("firstData");
         int successIndex = res.indexOf("\"success\":true");
         String re = res.substring(firstDataIndex + 12, successIndex + 15);

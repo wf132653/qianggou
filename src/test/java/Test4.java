@@ -18,17 +18,56 @@ public class Test4 {
     /*
      * 请求有权威证书的地址
      */
-    @Test
+//    @Test
     public void test() throws IOException {
-        String requestPath = "https://www.baidu.com/";
-        OkHttpClient client = new OkHttpClient.Builder()
-                //.connectionSpecs(Arrays.asList(ConnectionSpec.MODERN_TLS, ConnectionSpec.COMPATIBLE_TLS))
-                .build();
-        Request request = new Request.Builder()
-                .url(requestPath).get().build();
-        Response response = client.newCall(request).execute();
-        System.out.println("get返回状态：" + response.code());
-        System.out.println("get返回结果：" + response.body().string());
-        response.close();
+        String str = "set-cookie: sgcookie=E100%2FSe9xHHTFvmBL42xMFu%2Bmwat8z0yZWrrb3x7s67qFmVwYUQVS8dAbvrN3TGAyIIeeorW%2FEFEK2yyoDT6R%2BH6fw%3D%3D;Domain=.taobao.com;Path=/;Expires=Fri, 11-Mar-2022 09:48:43 GMT;HttpOnly;Secure;SameSite=None\n" +
+                "set-cookie: unb=2453833782;Domain=.taobao.com;Path=/;HttpOnly;Secure;SameSite=None\n" +
+                "set-cookie: uc1=cookie21=UIHiLt3xThH8t7YQouiW&cookie15=UIHiLt3xD8xYTw%3D%3D&existShop=true&pas=0&cookie14=Uoe1hx3wSadh4Q%3D%3D&cookie16=WqG3DMC9UpAPBHGz5QBErFxlCA%3D%3D;Domain=.taobao.com;Path=/;Secure;SameSite=None\n" +
+                "set-cookie: sn=;Domain=.taobao.com;Path=/;Expires=Thu, 01-Jan-1970 00:00:00 GMT;Secure;SameSite=None\n" +
+                "set-cookie: uc3=id2=UUwVZ%2FVd30BdBQ%3D%3D&lg2=UIHiLt3xD8xYTw%3D%3D&vt3=F8dCuAov7Io6zkZQkDg%3D&nk2=synFqM53%2B34OOhN8lQ%3D%3D;Domain=.taobao.com;Path=/;Expires=Sat, 10-Apr-2021 09:48:43 GMT;HttpOnly;Secure;SameSite=None\n" +
+                "set-cookie: csg=48b199f5;Domain=.taobao.com;Path=/;Secure;SameSite=None\n" +
+                "set-cookie: lgc=%5Cu5C0F%5Cu98DE546466464;Domain=.taobao.com;Path=/;Expires=Sat, 10-Apr-2021 09:48:43 GMT;Secure;SameSite=None\n" +
+                "set-cookie: t=8a1f9a1ce2b49e4c3943ff77ecd8f2ca;Domain=.taobao.com;Path=/;Expires=Wed, 09-Jun-2021 09:48:43 GMT;Secure;SameSite=None\n" +
+                "set-cookie: cookie17=UUwVZ%2FVd30BdBQ%3D%3D;Domain=.taobao.com;Path=/;HttpOnly;Secure;SameSite=None\n" +
+                "set-cookie: sgcookie=E100%2FSe9xHHTFvmBL42xMFu%2Bmwat8z0yZWrrb3x7s67qFmVwYUQVS8dAbvrN3TGAyIIeeorW%2FEFEK2yyoDT6R%2BH6fw%3D%3D;Domain=.taobao.com;Path=/;Expires=Fri, 11-Mar-2022 09:48:43 GMT;Secure;SameSite=None\n" +
+                "set-cookie: dnk=%5Cu5C0F%5Cu98DE546466464;Domain=.taobao.com;Path=/;Secure;SameSite=None\n" +
+                "set-cookie: skt=34da30dd3cf9903d;Domain=.taobao.com;Path=/;HttpOnly;Secure;SameSite=None\n" +
+                "set-cookie: cookie2=10c79843fcc5de905fc30c02b42d5489;Domain=.taobao.com;Path=/;HttpOnly;Secure;SameSite=None\n" +
+                "set-cookie: existShop=MTYxNTQyNzMyMw%3D%3D;Domain=.taobao.com;Path=/;Secure;SameSite=None\n" +
+                "set-cookie: uc4=id4=0%40U27KCxnkg%2BYg1C7JnsLCYKkDU9fN&nk4=0%40sVZlAh7wOoLIYyo1%2BRQD2VSCGkTkkltY;Domain=.taobao.com;Path=/;Expires=Sat, 10-Apr-2021 09:48:43 GMT;HttpOnly;Secure;SameSite=None\n" +
+                "set-cookie: publishItemObj=;Domain=.taobao.com;Path=/;Expires=Thu, 01-Jan-1970 00:00:00 GMT;Secure;SameSite=None\n" +
+                "set-cookie: tracknick=%5Cu5C0F%5Cu98DE546466464;Domain=.taobao.com;Path=/;Expires=Fri, 11-Mar-2022 09:48:43 GMT;Secure;SameSite=None\n" +
+                "set-cookie: lc=VyUMlLyL3ZM1zIzhEc2dR0vV;Domain=login.taobao.com;Path=/;Expires=Sat, 10-Apr-2021 09:48:43 GMT;HttpOnly;Secure;SameSite=None\n" +
+                "set-cookie: _cc_=UtASsssmfA%3D%3D;Domain=.taobao.com;Path=/;Expires=Fri, 11-Mar-2022 09:48:43 GMT;Secure;SameSite=None\n" +
+                "set-cookie: lid=%E5%B0%8F%E9%A3%9E546466464;Domain=login.taobao.com;Path=/;Expires=Fri, 11-Mar-2022 09:48:43 GMT;Secure;SameSite=None\n" +
+                "set-cookie: _l_g_=Ug%3D%3D;Domain=.taobao.com;Path=/;Secure;SameSite=None\n" +
+                "set-cookie: sg=424;Domain=.taobao.com;Path=/;Secure;SameSite=None\n" +
+                "set-cookie: _nk_=%5Cu5C0F%5Cu98DE546466464;Domain=.taobao.com;Path=/;Secure;SameSite=None\n" +
+                "set-cookie: cookie1=BYlsb5eBt59VpQOOC2%2BctMOI%2FdeOecij6kZgsgiprqE%3D;Domain=.taobao.com;Path=/;HttpOnly;Secure;SameSite=None\n" +
+                "set-cookie: _tb_token_=ee3d04030433e;Domain=.taobao.com;Path=/;Secure;SameSite=None";
+        String[] str1 = str.split("\n");
+        StringBuilder sb = new StringBuilder();
+        for (String s : str1) {
+            s = s.substring(12);
+            String[] s1 = s.split(";");
+            sb.append(s1[0]).append("; ");
+        }
+        String cookie = sb.substring(0, sb.length() - 2);
+        System.out.println(cookie);
     }
+
+//    @Test
+    public void test1() throws IOException {
+        String str = "sgcookie=E1009e1szLuWj565OR4vlL22YJ6kbpmAKg%2FpdT9oV170y39uXxwKz6UG2x%2FcNnYIXb3nILq5f%2B%2Fiv4WBgVbeHsmcXQ%3D%3D;Domain=.taobao.com;Path=/;Expires=Fri, 11-Mar-2022 10:14:09 GMT;HttpOnly;Secure;SameSite=None unb=2453833782;Domain=.taobao.com;Path=/;HttpOnly;Secure;SameSite=None uc1=cookie21=VFC%2FuZ9aiKCaj7AzMHh1&cookie15=UtASsssmOIJ0bQ%3D%3D&existShop=true&cookie16=VT5L2FSpNgq6fDudInPRgavC%2BQ%3D%3D&pas=0&cookie14=Uoe1hx3wRjyJJA%3D%3D;Domain=.taobao.com;Path=/;Secure;SameSite=None sn=;Domain=.taobao.com;Path=/;Expires=Thu, 01-Jan-1970 00:00:00 GMT;Secure;SameSite=None uc3=nk2=synFqM53%2B34OOhN8lQ%3D%3D&lg2=UIHiLt3xD8xYTw%3D%3D&id2=UUwVZ%2FVd30BdBQ%3D%3D&vt3=F8dCuAov7wAP%2FPft4ps%3D;Domain=.taobao.com;Path=/;Expires=Sat, 10-Apr-2021 10:14:09 GMT;HttpOnly;Secure;SameSite=None csg=c21e44ac;Domain=.taobao.com;Path=/;Secure;SameSite=None lgc=%5Cu5C0F%5Cu98DE546466464;Domain=.taobao.com;Path=/;Expires=Sat, 10-Apr-2021 10:14:09 GMT;Secure;SameSite=None t=8a1f9a1ce2b49e4c3943ff77ecd8f2ca;Domain=.taobao.com;Path=/;Expires=Wed, 09-Jun-2021 10:14:09 GMT;Secure;SameSite=None cookie17=UUwVZ%2FVd30BdBQ%3D%3D;Domain=.taobao.com;Path=/;HttpOnly;Secure;SameSite=None sgcookie=E1009e1szLuWj565OR4vlL22YJ6kbpmAKg%2FpdT9oV170y39uXxwKz6UG2x%2FcNnYIXb3nILq5f%2B%2Fiv4WBgVbeHsmcXQ%3D%3D;Domain=.taobao.com;Path=/;Expires=Fri, 11-Mar-2022 10:14:09 GMT;Secure;SameSite=None dnk=%5Cu5C0F%5Cu98DE546466464;Domain=.taobao.com;Path=/;Secure;SameSite=None skt=bbe8b0f1036c0c8f;Domain=.taobao.com;Path=/;HttpOnly;Secure;SameSite=None cookie2=10c79843fcc5de905fc30c02b42d5489;Domain=.taobao.com;Path=/;HttpOnly;Secure;SameSite=None existShop=MTYxNTQyODg0OQ%3D%3D;Domain=.taobao.com;Path=/;Secure;SameSite=None uc4=id4=0%40U27KCxnkg%2BYg1C7JnsLCYKkM0fGv&nk4=0%40sVZlAh7wOoLIYyo1%2BRQD2VSCGkTrV4db;Domain=.taobao.com;Path=/;Expires=Sat, 10-Apr-2021 10:14:09 GMT;HttpOnly;Secure;SameSite=None publishItemObj=;Domain=.taobao.com;Path=/;Expires=Thu, 01-Jan-1970 00:00:00 GMT;Secure;SameSite=None tracknick=%5Cu5C0F%5Cu98DE546466464;Domain=.taobao.com;Path=/;Expires=Fri, 11-Mar-2022 10:14:09 GMT;Secure;SameSite=None lc=VyUMlLyL3ZM1zIzhEc2dR0vV;Domain=login.taobao.com;Path=/;Expires=Sat, 10-Apr-2021 10:14:09 GMT;HttpOnly;Secure;SameSite=None _cc_=UtASsssmfA%3D%3D;Domain=.taobao.com;Path=/;Expires=Fri, 11-Mar-2022 10:14:09 GMT;Secure;SameSite=None lid=%E5%B0%8F%E9%A3%9E546466464;Domain=login.taobao.com;Path=/;Expires=Fri, 11-Mar-2022 10:14:09 GMT;Secure;SameSite=None _l_g_=Ug%3D%3D;Domain=.taobao.com;Path=/;Secure;SameSite=None sg=424;Domain=.taobao.com;Path=/;Secure;SameSite=None _nk_=%5Cu5C0F%5Cu98DE546466464;Domain=.taobao.com;Path=/;Secure;SameSite=None cookie1=BYlsb5eBt59VpQOOC2%2BctMOI%2FdeOecij6kZgsgiprqE%3D;Domain=.taobao.com;Path=/;HttpOnly;Secure;SameSite=None _tb_token_=ee3d04030433e;Domain=.taobao.com;Path=/;Secure;SameSite=None";
+        String[] str1 = str.split("SameSite=None ");
+        StringBuilder sb = new StringBuilder();
+        for (String s : str1) {
+            String[] s1 = s.split(";");
+            System.out.println(s1[0]);
+            sb.append(s1[0]).append("; ");
+        }
+        String cookie = sb.substring(0, sb.length() - 2);
+        System.out.println(cookie);
+    }
+
 }

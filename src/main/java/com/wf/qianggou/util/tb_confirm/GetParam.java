@@ -54,7 +54,7 @@ public class GetParam {
                 HttpEntity entity = response.getEntity();
                 return EntityUtils.toString(entity, "UTF-8");
             } else {
-                log.error("GET请求失败");
+                log.error("GET请求失败！");
             }
         } catch (Exception e) {
             log.error("请求错误信息 : {}", e.getMessage());

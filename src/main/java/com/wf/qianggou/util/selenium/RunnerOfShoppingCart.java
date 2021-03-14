@@ -5,6 +5,7 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Collections;
+import java.util.Set;
 
 import com.wf.qianggou.util.GetServerTimeOfTb;
 import lombok.extern.slf4j.Slf4j;
@@ -15,6 +16,7 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 
 import org.openqa.selenium.*;
+import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.interactions.Actions;
 
 /**
@@ -56,7 +58,8 @@ public class RunnerOfShoppingCart {
         //开启开发者模式
         options.setExperimentalOption("excludeSwitches", Collections.singletonList("enable-automation"));
 
-        WebDriver webDriver = new ChromeDriver(options);
+        WebDriver webDriver = new FirefoxDriver(options);
+        webDriver.manage().getCookies();
         Navigation navigation = webDriver.navigate();
 
         // 放大浏览器
@@ -67,10 +70,23 @@ public class RunnerOfShoppingCart {
         ((JavascriptExecutor) webDriver).executeScript("Object.defineProperties(navigator,{ webdriver:{ get: () => false } })");
 
         Thread.sleep(1000);
-//        webDriver.findElement(By.linkText("亲，请登录")).click();
-        RunnerOfShoppingDetail.moveToClick(webDriver, 601, 0, true);
+        webDriver.findElement(By.linkText("亲，请登录")).click();
+//        RunnerOfShoppingDetail.moveToClick(webDriver, 601, 0, true);
         passwordLogin(webDriver);
 //        smsLogin(webDriver);
+
+        Set<Cookie> cookies = webDriver.manage().getCookies();
+        StringBuilder sb = new StringBuilder();
+        for(Cookie cookie : cookies){
+            System.out.println("cookie.getName() = " + cookie.getName());
+            System.out.println("cookie.getValue() = " + cookie.getValue());
+            sb.append(cookie.getName()).append("=").append(cookie.getValue()).append("; ");
+        }
+        System.out.println(sb.substring(0, sb.length() -2));
+
+
+        Thread.sleep(10000000);
+
         Thread.sleep(1000);
         // 点击登录
         webDriver.findElement(By.className("fm-button")).click();
@@ -122,8 +138,8 @@ public class RunnerOfShoppingCart {
 
     private static void passwordLogin(WebDriver webDriver) throws Exception {
         Thread.sleep(1000);
-//        webDriver.findElement(By.linkText("密码登录")).click();
-        RunnerOfShoppingDetail.moveToClick(webDriver, 1335, 248, true);
+        webDriver.findElement(By.linkText("密码登录")).click();
+//        RunnerOfShoppingDetail.moveToClick(webDriver, 1335, 248, true);
         Thread.sleep(1000);
         webDriver.findElement(By.id("fm-login-id")).sendKeys("小飞546466464");
         Thread.sleep(1000);

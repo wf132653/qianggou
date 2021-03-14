@@ -38,11 +38,6 @@ public class GetServerTimeOfTb {
      */
     public static Long getServiceTime() throws Exception {
         String url = "http://api.m.taobao.com/rest/api3.do?api=mtop.common.getTimestamp";
-        try {
-            Thread.sleep(10);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
         CloseableHttpClient client;
         client = new SSLClient();
         CloseableHttpResponse response = null;
