@@ -1,4 +1,4 @@
-package com.wf.qianggou.util.xiaomi;
+package com.wf.qianggou.util.xiaomishangcheng;
 
 import com.wf.qianggou.util.SSLClient;
 import lombok.extern.slf4j.Slf4j;
@@ -27,7 +27,7 @@ public class _3_AddCart {
      * @return JSON或者字符串
      * @throws Exception 异常
      */
-    public static void sendGet(String url) throws Exception {
+    public static void sendGet(String url, String cookie) throws Exception {
 //        System.out.println("AddCart的url = " + url);
         CloseableHttpClient client;
         client = new SSLClient();
@@ -38,7 +38,7 @@ public class _3_AddCart {
             httpGet.setHeader("user-agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.82 Safari/537.36");
             httpGet.setHeader("origin", "https://www.mi.com");
             httpGet.setHeader("referer", "https://www.mi.com/");
-            httpGet.setHeader("cookie", XiaoMiConstant.COOKIE);
+            httpGet.setHeader("cookie", cookie);
             response = client.execute(httpGet);
 
             int statusCode = response.getStatusLine().getStatusCode();
@@ -58,21 +58,21 @@ public class _3_AddCart {
     }
 
     public static void main(String[] args) throws Exception {
-        addCart();
+        addCart("");
     }
 
-    public static void addCart() throws Exception {
+    public static void addCart(String cookie) throws Exception {
 
         long s = System.currentTimeMillis();
-        while (s - System.currentTimeMillis() < 2000){
+        while (System.currentTimeMillis() - s < 2000){
             try {
                 String url = "https://api2.order.mi.com/cart/add/";
                 url += XiaoMiConstant.GOODS_IDS + "?" + "gid=" + XiaoMiConstant.GOODS_IDS;
                 url += "&callback=__jp4";
                 url += "&source=normal_seckill";
-                String token = _2_GetToken.getToken();
+                String token = _2_GetToken.getToken(cookie);
                 url += "&token=" + token;
-                sendGet(url);
+                sendGet(url, cookie);
                 break;
             }catch (Exception e){
                 e.printStackTrace();

@@ -1,4 +1,4 @@
-package com.wf.qianggou.util.xiaomi;
+package com.wf.qianggou.util.xiaomishangcheng;
 
 import com.wf.qianggou.util.SSLClient;
 import lombok.extern.slf4j.Slf4j;
@@ -30,7 +30,7 @@ public class _4_SubmitOrder {
      * @return JSON或者字符串
      * @throws Exception
      */
-    public static String sendPost(String url, String body) throws Exception {
+    public static String sendPost(String url, String body, String cookie) throws Exception {
         log.info("发起抢购");
         log.info("请求的url : {}", url);
 
@@ -45,7 +45,7 @@ public class _4_SubmitOrder {
             post.setHeader("origin", "https://www.mi.com");
             post.setHeader("referer", "https://www.mi.com/");
             post.setHeader("Content-Type", "application/x-www-form-urlencoded");
-            post.setHeader("cookie", XiaoMiConstant.COOKIE);
+            post.setHeader("cookie", cookie);
 
             response = client.execute(post);
             int statusCode = response.getStatusLine().getStatusCode();
@@ -65,14 +65,14 @@ public class _4_SubmitOrder {
     }
 
     public static void main(String[] args) throws Exception {
-        submitOrder();
+        submitOrder("");
     }
 
-    public static void submitOrder() throws Exception {
+    public static void submitOrder(String cookie) throws Exception {
         long s = System.currentTimeMillis();
-        while (s - System.currentTimeMillis() < 2000){
+        while (System.currentTimeMillis() - s < 2000){
             try {
-                _3_AddCart.addCart();
+                _3_AddCart.addCart(cookie);
                 break;
             }catch (Exception e){
                 e.printStackTrace();
@@ -93,7 +93,7 @@ public class _4_SubmitOrder {
                 .append("&invoice_email=")
                 .append("&use_red_packet=1")
                 .append("&use_shopping_coupon=false");
-        String res = sendPost(url, sb.toString());
+        String res = sendPost(url, sb.toString(), cookie);
         System.out.println("提交订单的返回 = " + res);
     }
 

@@ -1,6 +1,8 @@
-package com.wf.qianggou.util.xiaomi;
+package com.wf.qianggou.util.xiaomishangcheng;
 
+import com.alibaba.fastjson.JSONObject;
 import com.wf.qianggou.util.SSLClient;
+import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.http.HttpEntity;
 import org.apache.http.client.methods.CloseableHttpResponse;
@@ -9,22 +11,39 @@ import org.apache.http.client.utils.URIBuilder;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.util.EntityUtils;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.util.Map;
 
 /**
  * demo_class
  *
  * @author wf
- * @date 2021年03月14日 18:02
+ * @date 2021年03月14日 16:09
  */
 @Slf4j
-public class GetServiceTimeOfXm {
+@Data
+public class _1_GetSalt {
+
+    private String salt = "";
+    private String startTime = "";
+    private String endTime = "";
+    private String cookie = "";
+    String storage = "";
+
 
     /**
      * 返回成功状态码
      */
     private static final int SUCCESS_CODE = 200;
+
+    public _1_GetSalt(){}
+    public _1_GetSalt(String cookie){
+        this.cookie = cookie;
+        try {
+            storage = _1_GetStorage.getStorage(cookie);
+        }catch (Exception e){
+            log.info("_1_GetSalt,{}", e);
+        }
+    }
 
     /**
      * 发送GET请求
@@ -32,7 +51,7 @@ public class GetServiceTimeOfXm {
      * @return JSON或者字符串
      * @throws Exception 异常
      */
-    public static Long sendGet(String url) throws Exception {
+    public static Map<String, Object> sendGet(String url, String cookie) throws Exception {
 //        System.out.println("GetSalt的url = " + url);
         CloseableHttpClient client;
         client = new SSLClient();
@@ -43,14 +62,15 @@ public class GetServiceTimeOfXm {
             httpGet.setHeader("user-agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.82 Safari/537.36");
             httpGet.setHeader("origin", "https://www.mi.com");
             httpGet.setHeader("referer", "https://www.mi.com/");
-            httpGet.setHeader("cookie", XiaoMiConstant.COOKIE);
+            httpGet.setHeader("cookie", cookie);
             response = client.execute(httpGet);
 
             int statusCode = response.getStatusLine().getStatusCode();
             if (SUCCESS_CODE == statusCode) {
                 HttpEntity entity = response.getEntity();
                 String res = EntityUtils.toString(entity, "UTF-8");
-                return Long.parseLong(res.substring(15));
+                res = res.substring(7, res.length() - 1);
+                return (Map) JSONObject.parse(res);
             } else {
                 log.error("GET请求失败！");
             }
@@ -66,18 +86,28 @@ public class GetServiceTimeOfXm {
     }
 
     public static void main(String[] args) throws Exception {
-        getServiceTime();
+        _1_GetSalt a = new _1_GetSalt();
+        a.getSlat();
+        System.out.println(a.toString());
     }
 
-    public static String getServiceTime() throws Exception {
-        String url = "https://time.hd.mi.com/gettimestamp";
-        long time = sendGet(url) * 1000;
-        System.out.println(time);
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        Date date = new Date();
-        date.setTime(time);
-        System.out.println(sdf.format(date));
+    public void getSlat() throws Exception {
 
-        return null;
+        String url = "https://tp.hd.mi.com/hdinfo/cn?source=bigtap&ap=24&ac=272&ad=2548&aa=2548017&jsonpcallback=hdinfo";
+        url += "&product=" + XiaoMiConstant.GOODS_IDS;
+        url += "&storage=" + storage;
+        url += "&m=" + XiaoMiConstant.M;
+
+        Map<String, Object> map = sendGet(url, cookie);
+        Map status = (Map) map.get("status");
+        Map gMap = (Map) status.get(XiaoMiConstant.GOODS_IDS);
+        String salt = gMap.get("salt").toString();
+        String startTime = gMap.get("starttime").toString();
+        String endTime = gMap.get("endtime").toString();
+        this.salt = salt;
+        this.startTime = startTime;
+        this.endTime = endTime;
     }
+
+
 }
