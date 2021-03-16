@@ -2,6 +2,8 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.junit.jupiter.api.Test;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -32,9 +34,12 @@ public class Test5 {
         System.out.println(ip + ":" + port + "访问时间:" + (System.currentTimeMillis() - a) + "   访问结果: " + doc.text());
     }
 
-//    @Test
-    public void test1(){
-        System.out.println(System.currentTimeMillis());
+    @Test
+    public void test1() throws Exception{
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String time = "2021-03-19 10:00:00";
+        Date date = sdf.parse(time);
+        System.out.println(date.getTime());
     }
 
 }

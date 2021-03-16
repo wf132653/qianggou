@@ -33,7 +33,6 @@ public class GetServiceTimeOfXm {
      * @throws Exception 异常
      */
     public static Long sendGet(String url) throws Exception {
-//        System.out.println("GetSalt的url = " + url);
         CloseableHttpClient client;
         client = new SSLClient();
         CloseableHttpResponse response = null;
@@ -41,9 +40,6 @@ public class GetServiceTimeOfXm {
             URIBuilder uriBuilder = new URIBuilder(url);
             HttpGet httpGet = new HttpGet(uriBuilder.build());
             httpGet.setHeader("user-agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.82 Safari/537.36");
-            httpGet.setHeader("origin", "https://www.mi.com");
-            httpGet.setHeader("referer", "https://www.mi.com/");
-            httpGet.setHeader("cookie", XiaoMiConstant.COOKIE);
             response = client.execute(httpGet);
 
             int statusCode = response.getStatusLine().getStatusCode();
@@ -69,15 +65,15 @@ public class GetServiceTimeOfXm {
         getServiceTime();
     }
 
-    public static String getServiceTime() throws Exception {
+    public static long getServiceTime() throws Exception {
         String url = "https://time.hd.mi.com/gettimestamp";
         long time = sendGet(url) * 1000;
-        System.out.println(time);
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        Date date = new Date();
-        date.setTime(time);
-        System.out.println(sdf.format(date));
+//        System.out.println(time);
+//        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+//        Date date = new Date();
+//        date.setTime(time);
+//        System.out.println(sdf.format(date));
 
-        return null;
+        return time;
     }
 }

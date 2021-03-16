@@ -6,6 +6,7 @@ import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.utils.URIBuilder;
 import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.util.EntityUtils;
 
 /**
  * demo_class
@@ -43,7 +44,8 @@ public class _3_AddCart {
 
             int statusCode = response.getStatusLine().getStatusCode();
             if (SUCCESS_CODE == statusCode) {
-
+                String res = EntityUtils.toString(response.getEntity(), "UTF-8");
+                System.out.println("添加购物车的返回:" + res);
             } else {
                 log.error("GET请求失败！");
             }
