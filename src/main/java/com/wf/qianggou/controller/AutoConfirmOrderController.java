@@ -43,7 +43,6 @@ public class AutoConfirmOrderController {
     @PostMapping("/xmypK40")
     public void xmypK40(@RequestBody Map map) {
         String cookie = map.get("cookie").toString();
-        String addressId = map.get("addressId").toString();
         String price = map.get("price").toString();
         String key = map.get("key").toString();
         String gId = map.get("gId").toString();
@@ -51,7 +50,7 @@ public class AutoConfirmOrderController {
         ThreadPoolUtil.executor.execute(() -> {
             try {
                 OrderSubmit orderSubmit = new OrderSubmit();
-                orderSubmit.orderSubmit(cookie, addressId, price, key, gId, name);
+                orderSubmit.orderSubmit(cookie, price, key, gId, name);
             } catch (Exception e) {
                 e.printStackTrace();
             }

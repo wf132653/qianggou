@@ -4,7 +4,6 @@ import cn.hutool.core.util.RandomUtil;
 import com.alibaba.fastjson.JSONObject;
 import com.wf.qianggou.config.SysConstants;
 import com.wf.qianggou.util.SSLClient;
-import com.wf.qianggou.util.xiaomishangcheng.GetServiceTimeOfXm;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpPost;
@@ -36,13 +35,9 @@ public class OrderSubmit {
 
 
     static {
-        k.put(0, "Redmi 9 碳素黑 6GB+128GB");
-        k.put(1, "Redmi 9 墨黛青 6GB+128GB");
-        k.put(2, "Redmi 9 霓虹蓝 6GB+128GB");
-
-//        k.put(0, "Redmi K40 幻境 12GB+256GB");
-//        k.put(1, "Redmi K40 亮黑 12GB+256GB");
-//        k.put(2, "Redmi K40 晴雪 12GB+256GB");
+        k.put(0, "Redmi K40 幻境 12GB+256GB");
+        k.put(1, "Redmi K40 亮黑 12GB+256GB");
+        k.put(2, "Redmi K40 晴雪 12GB+256GB");
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         Date date = new Date();
         buyDateTime = sdf.format(date) + XMYPConstant.BUY_TIME;
@@ -105,21 +100,24 @@ public class OrderSubmit {
 
     }
 
-    public void orderSubmit(String cookie, String addressId, String price, String key, String gId, String name) throws Exception {
+    public void orderSubmit(String cookie, String price, String key, String gId, String name) throws Exception {
+        // 0. 获取地址
+        String addressId = GetAddress.getAddressId(cookie);
+
+        // 1.准备数据
         String body = getBody(addressId, price, key);
         String url = "https://trade.xiaomiyoupin.com/mtop/order/cart/submit";
         StringBuilder referer = new StringBuilder("https://trade.xiaomiyoupin.com/tr/checkout?quickOrder=1&checkType=2&sourceType=2&pid=&count=1&_iid=g=");
         String buy = getBuy();
         referer.append(gId).append("&spmref=YouPinPC.$Detail$_").append(gId).append(".buy.").append(buy);
 
-        // 1.等待
-        long sleep = needTime - GetServiceTimeOfXm.getServiceTime();
+        // 2.等待
+        long sleep = needTime - System.currentTimeMillis();
         sleep -= 1000;
         if (sleep > 0) {
             log.info("sleep = {}", sleep);
             Thread.sleep(sleep);
         }
-
 
         boolean reBuy = true;
         Object code = null;
@@ -127,33 +125,31 @@ public class OrderSubmit {
         String pid;
         List<String> pids = getPids();
         while (reBuy && i < pids.size()) {
-            pid = pids.get(i);
-            i++;
-            // 2.加入虚拟购物车
-            long s = System.currentTimeMillis();
-            while (System.currentTimeMillis() - s < 3000) {
+
+            // 3.加入虚拟购物车
+            long l = System.currentTimeMillis();
+            while (i < pids.size() && System.currentTimeMillis() - l < 3000) {
+                pid = pids.get(i);
+                i++;
                 boolean success = AddCart.addCart(cookie, pid);
                 if (success || code != null) {
                     break;
                 }
             }
 
-            // 3.抢购
-            if(i != 0){
-                Thread.sleep(i * 500);
-            }
+            // 4.抢购
             String res = sendPost(url, body, cookie, referer.toString());
             log.info("{} 下订单结果 : {}", name, res);
             Map map = JSONObject.parseObject(res, Map.class);
             code = map.get("code");
-            if (code != null && code.equals("0")) {
+            if (code != null && code.toString().equals("0")) {
                 reBuy = false;
             }
         }
 
-        if(!reBuy){
+        if (!reBuy) {
             log.info("抢购结果 : {}抢到了一台 {}", name, k.get(i));
-        }else {
+        } else {
             log.info("抢购结果 : {} 很遗憾，没有抢到", name);
         }
     }
@@ -202,21 +198,11 @@ public class OrderSubmit {
     private List<String> getPids() {
         List<String> list = new ArrayList<>();
         // 幻境
-        list.add("271169");
+        list.add("294129");
         // 亮黑
-        list.add("271170");
+        list.add("294128");
         // 晴雪
-        list.add("271171");
+        list.add("294130");
         return list;
-
-        // todo 临时的，记得换成下面这个
-//        List<String> list = new ArrayList<>();
-//        // 幻境
-//        list.add("294129");
-//        // 亮黑
-//        list.add("294128");
-//        // 晴雪
-//        list.add("294130");
-//        return list;
     }
 }

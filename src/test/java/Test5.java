@@ -35,6 +35,11 @@ public class Test5 {
     }
 
     @Test
+    public void test0(){
+        System.out.println(System.currentTimeMillis());
+    }
+
+    @Test
     public void test1() throws Exception{
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         String time = "2021-03-19 10:00:00";

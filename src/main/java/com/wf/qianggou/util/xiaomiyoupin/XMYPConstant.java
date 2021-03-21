@@ -8,5 +8,5 @@ package com.wf.qianggou.util.xiaomiyoupin;
  */
 public class XMYPConstant {
 
-    public static final String BUY_TIME = " 10:00:00 000";
+    public static final String BUY_TIME = " 10:10:00 000";
 }
